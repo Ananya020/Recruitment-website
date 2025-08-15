@@ -241,69 +241,72 @@ export default function RecruitmentPage() {
       </section>
 
       {/* Timeline Section */}
-      <section id="timeline" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: `url('/timeline-background.png')`,
-          }}
-        />
+      {/* Timeline Section */}
+<section
+  id="timeline"
+  className="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
+    style={{
+      backgroundImage: `url('/timeline-background.png')`,
+    }}
+  />
 
-        <div className="relative z-10 container mx-auto px-4">
-          <h2 className="text-4xl md:text-6xl font-black text-center mb-16 text-white">RECRUITMENT PROCESS TIMELINE</h2>
+  <div className="relative z-10 container mx-auto px-4">
+    <h2 className="text-4xl md:text-6xl font-black text-center mb-16 text-white">
+      RECRUITMENT PROCESS TIMELINE
+    </h2>
 
-          <div className="relative max-w-7xl mx-auto">
-            {/* Timeline Path */}
-            <div className="relative">
-              <svg
-                className="absolute top-1/2 left-0 right-0 h-32 transform -translate-y-1/2 hidden lg:block"
-                viewBox="0 0 1200 200"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M50,100 Q200,50 350,100 T650,100 Q800,150 950,100 Q1050,50 1150,100"
-                  stroke="#FCD34D"
-                  strokeWidth="6"
-                  fill="none"
-                />
-              </svg>
+    <div className="relative max-w-7xl mx-auto">
+      {/* Timeline Path */}
+      <div className="relative">
+        
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-4 relative z-10">
-                {[
-                  { title: "Application starts", date: "19.08.25", desc: "Registration opens", position: "top" },
-                  { title: "Application close", date: "29.08.25", desc: "Last day to apply", position: "bottom" },
-                  { title: "Task Assignment", date: "01.09.25", desc: "Tasks distributed", position: "top" },
-                  { title: "Task Submission", date: "06.09.25", desc: "Submit your work", position: "bottom" },
-                  { title: "Interview", date: "08.09.25", desc: "Face-to-face round", position: "top" },
-                  { title: "Result", date: "10.09.25", desc: "Final announcement", position: "bottom" },
-                ].map((milestone, index) => (
-                  <div key={index} className={`relative group ${milestone.position === "bottom" ? "lg:mt-24" : ""}`}>
-                    <div className="bg-black/90 border-4 border-yellow-400 rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 relative">
-                      <span className="text-yellow-400 font-bold text-xl">{index + 1}</span>
-                      {/* Yellow indicator */}
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
-                        <span className="text-black text-xs font-bold">!</span>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="font-bold text-lg mb-2 text-white">{milestone.title}</h3>
-                      <p className="text-2xl font-black mb-2 text-white">{milestone.date}</p>
-                      <p className="text-sm text-gray-300">{milestone.desc}</p>
-                    </div>
+        {/* Timeline Items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-4 relative z-10">
+          {[
+            { title: "Application starts", date: "19.08.25", desc: "Registration opens", position: "top" },
+            { title: "Application close", date: "29.08.25", desc: "Last day to apply", position: "bottom" },
+            { title: "Task Assignment", date: "01.09.25", desc: "Tasks distributed", position: "top" },
+            { title: "Task Submission", date: "06.09.25", desc: "Submit your work", position: "bottom" },
+            { title: "Interview", date: "08.09.25", desc: "Face-to-face round", position: "top" },
+            { title: "Result", date: "10.09.25", desc: "Final announcement", position: "bottom" },
+          ].map((milestone, index) => (
+            <div
+              key={index}
+              className={`relative group ${milestone.position === "bottom" ? "lg:mt-24" : ""}`}
+            >
+              {/* Circle */}
+              <div className="bg-black/90 border-4 border-yellow-400 rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 relative">
+                <span className="text-yellow-400 font-bold text-xl">{index + 1}</span>
+                {/* Yellow indicator */}
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                  <span className="text-black text-xs font-bold">!</span>
+                </div>
+              </div>
 
-                    {/* Tooltip */}
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="bg-black/90 text-white p-3 rounded-lg text-sm whitespace-nowrap border border-yellow-400">
-                        {milestone.desc}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              {/* Text */}
+              <div className="text-center">
+                <h3 className="font-bold text-lg mb-2 text-white">{milestone.title}</h3>
+                <p className="text-2xl font-black mb-2 text-white">{milestone.date}</p>
+                <p className="text-sm text-gray-300">{milestone.desc}</p>
+              </div>
+
+              {/* Tooltip */}
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div className="bg-black/90 text-white p-3 rounded-lg text-sm whitespace-nowrap border border-yellow-400">
+                  {milestone.desc}
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Contact Section */}
       <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden">
