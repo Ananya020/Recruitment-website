@@ -42,7 +42,7 @@ A modern, One Piece-themed recruitment platform for CodeNex, featuring a beautif
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ananya020/Recruitment-website.git
    cd codenex-recruitment
    ```
 
