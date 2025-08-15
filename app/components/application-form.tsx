@@ -39,28 +39,44 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const response = await fetch('http://localhost:5000/api/applicants', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-    console.log("Form submitted:", formData)
-    alert("Application submitted successfully! Welcome aboard, future crew member! 🏴‍☠️")
+      if (!response.ok) {
+        throw new Error('Failed to submit application')
+      }
 
-    setIsSubmitting(false)
-    onClose()
+      const result = await response.json()
+      console.log("Form submitted successfully:", result)
+      alert("Application submitted successfully! Welcome aboard, future crew member! 🏴‍☠️")
 
-    // Reset form
-    setFormData({
-      name: "",
-      srmEmail: "",
-      personalEmail: "",
-      phoneNumber: "",
-      yearOfStudy: "",
-      course: "",
-      specialization: "",
-      regNo: "",
-      domain: "",
-      motivation: "",
-    })
+      // Reset form
+      setFormData({
+        name: "",
+        srmEmail: "",
+        personalEmail: "",
+        phoneNumber: "",
+        yearOfStudy: "",
+        course: "",
+        specialization: "",
+        regNo: "",
+        domain: "",
+        motivation: "",
+      })
+      
+      onClose()
+    } catch (error) {
+      console.error('Error submitting application:', error)
+      alert('Failed to submit application. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!isOpen) return null
