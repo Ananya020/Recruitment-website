@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "Recruitment Website API",
+    "_postman_id": "fcfffe55-eaea-4c39-8504-885326611dac",
+    "description": "Postman collection for testing the Club Recruitment Express.js + MongoDB backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Applicants",
+      "item": [
+        {
+          "name": "Get All Applicants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/applicants",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applicants"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Applicant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"srmEmail\": \"john.doe@srmist.edu.in\",\n  \"personalEmail\": \"john.doe@gmail.com\",\n  \"phoneNumber\": \"9876543210\",\n  \"yearOfStudy\": \"3\",\n  \"course\": \"B.Tech\",\n  \"specialization\": \"CSE\",\n  \"regNo\": \"RA2011001010001\",\n  \"domain\": \"Web Development\",\n  \"motivation\": \"I am passionate about building scalable web applications.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/applicants",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "applicants"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    }
+  ]
+}
