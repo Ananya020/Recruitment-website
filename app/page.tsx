@@ -201,28 +201,58 @@ export default function RecruitmentPage() {
       </section>
 
       {/* Domains Section */}
-      <section id="domains" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: `url('/domains-background.png')`,
-          }}
-        />
+<section
+  id="domains"
+  className="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
+    style={{
+      backgroundImage: `url('/domains-background.png')`,
+    }}
+  />
 
-        <div className="relative z-10 container mx-auto px-4">
-          <h2 className="text-5xl md:text-7xl font-black text-center mb-20 text-white tracking-wider">OUR DOMAINS</h2>
+  <div className="relative z-10 container mx-auto px-4">
+    <h2 className="text-5xl md:text-7xl font-black text-center mb-20 text-white tracking-wider">
+      OUR DOMAINS
+    </h2>
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto">
-            {[
-              { title: "CREATIVES", position: "left" },
-              { title: "TECHNICAL", position: "center" },
-              { title: "NON-TECH", position: "right" },
-            ].map((domain, index) => (
+    <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto">
+      {[
+        {
+          title: "CREATIVES",
+          desc: "Designing posters, crafting stories, and bringing the Straw Hat spirit to life!",
+          position: "left",
+        },
+        {
+          title: "TECHNICAL",
+          desc: "Building websites, coding adventures, and keeping our ship’s systems running.",
+          position: "center",
+        },
+        {
+          title: "NON-TECH",
+          desc: "Managing events, coordinating crews, and ensuring smooth sailing.",
+          position: "right",
+        },
+      ].map((domain, index) => {
+        const [flipped, setFlipped] = useState(false);
+
+        return (
+          <div
+            key={index}
+            className={`relative cursor-pointer perspective`}
+            onClick={() => setFlipped(!flipped)}
+          >
+            <div
+              className={`relative w-72 h-80 md:w-80 md:h-96 transition-transform duration-700 transform-style-preserve-3d ${
+                domain.position === "center"
+                  ? "md:w-96 md:h-[28rem]"
+                  : ""
+              } ${flipped ? "rotate-y-180" : ""}`}
+            >
+              {/* Front Side */}
               <div
-                key={index}
-                className={`group relative bg-gradient-to-b from-yellow-100 to-yellow-200 text-black rounded-lg transform transition-all duration-300 hover:scale-105 hover:rotate-2 cursor-pointer shadow-2xl ${
-                  domain.position === "center" ? "w-80 h-96 md:w-96 md:h-[28rem]" : "w-72 h-80 md:w-80 md:h-96"
-                }`}
+                className="absolute inset-0 rounded-lg shadow-2xl bg-cover bg-yellow-100/80 border border-yellow-300 backface-hidden"
                 style={{
                   backgroundImage: `url('/vintage-paper-texture.png')`,
                   backgroundSize: "cover",
@@ -235,12 +265,42 @@ export default function RecruitmentPage() {
                   </h3>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Timeline Section */}
+              {/* Back Side */}
+              <div
+                className="absolute inset-0 rounded-lg shadow-2xl bg-yellow-200 border border-yellow-400 p-6 text-black flex items-center justify-center text-center transform rotate-y-180 backface-hidden"
+                style={{
+                  backgroundImage: `url('/vintage-paper-texture.png')`,
+                  backgroundSize: "cover",
+                }}
+              >
+                <p className="text-lg font-semibold">{domain.desc}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <style jsx>{`
+    .perspective {
+      perspective: 1000px;
+    }
+    .transform-style-preserve-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+  `}</style>
+</section>
+
+
+      
       {/* Timeline Section */}
 <section
   id="timeline"
