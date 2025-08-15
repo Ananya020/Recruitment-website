@@ -3,8 +3,78 @@
 import { useState, useEffect } from "react"
 import { Menu, X, Instagram, Twitter, MessageCircle, Mail, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import dynamic from "next/dynamic"
+const ApplicationForm = dynamic(() => import("./components/application-form"), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="relative z-10 bg-black/60 text-white px-6 py-4 rounded-lg border border-yellow-400">
+        Loading form...
+      </div>
+    </div>
+  ),
+})
+
+function DomainCard({
+  title,
+  desc,
+  position,
+}: {
+  title: string
+  desc: string
+  position: "left" | "center" | "right"
+}) {
+  const [flipped, setFlipped] = useState(false)
+
+  return (
+    <div
+      className={`relative cursor-pointer`}
+      style={{ perspective: "1000px" }}
+      onClick={() => setFlipped(!flipped)}
+    >
+      <div
+        className={`relative w-72 h-80 md:w-80 md:h-96 transition-transform duration-700 ${
+          position === "center" ? "md:w-96 md:h-[28rem]" : ""
+        }`}
+        style={{ transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : undefined }}
+      >
+        {/* Front Side */}
+        <div
+          className="absolute inset-0 rounded-lg shadow-2xl bg-cover bg-yellow-100/80 border border-yellow-300"
+          style={{
+            backgroundImage: `url('/vintage-paper-texture.png')`,
+            backgroundSize: "cover",
+            backfaceVisibility: "hidden",
+          }}
+        >
+          <div className="absolute inset-0 bg-yellow-100/80 rounded-lg" />
+          <div className="relative z-10 h-full flex items-center justify-center">
+            <h3 className="text-3xl md:text-4xl font-black text-center text-black tracking-wide">
+              {title}
+            </h3>
+          </div>
+        </div>
+
+        {/* Back Side */}
+        <div
+          className="absolute inset-0 rounded-lg shadow-2xl bg-yellow-200 border border-yellow-400 p-6 text-black flex items-center justify-center text-center"
+          style={{
+            backgroundImage: `url('/vintage-paper-texture.png')`,
+            backgroundSize: "cover",
+            transform: "rotateY(180deg)",
+            backfaceVisibility: "hidden",
+          }}
+        >
+          <p className="text-lg font-semibold">{desc}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function RecruitmentPage() {
+  const [isFormOpen, setIsFormOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -32,6 +102,12 @@ export default function RecruitmentPage() {
     }, 1000)
 
     return () => clearInterval(timer)
+  }, [])
+
+  // Preload the form component so it opens instantly on click
+  useEffect(() => {
+    // Intentionally ignore the promise
+    import("./components/application-form").catch(() => {})
   }, [])
 
   const scrollToSection = (sectionId: string) => {
@@ -145,7 +221,7 @@ export default function RecruitmentPage() {
           </h1>
 
           <div className="mb-12">
-            <p className="text-3xl md:text-4xl mb-6 text-black font-bold tracking-wide">CLOSES IN</p>
+            <p className="text-3xl md:text-4xl mb-6 text-yellow-400 font-bold tracking-wide">CLOSES IN</p>
             <div className="flex justify-center space-x-6 md:space-x-8 text-black">
               <div className="text-center">
                 <div className="text-4xl md:text-6xl font-black">{String(timeLeft.days).padStart(2, "0")}D</div>
@@ -164,6 +240,7 @@ export default function RecruitmentPage() {
 
           <Button
             size="lg"
+            onClick={() => setIsFormOpen(true)}
             className="bg-black text-white px-12 py-6 text-2xl font-bold rounded-full hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
           >
             APPLY NOW
@@ -213,7 +290,7 @@ export default function RecruitmentPage() {
   />
 
   <div className="relative z-10 container mx-auto px-4">
-    <h2 className="text-5xl md:text-7xl font-black text-center mb-20 text-white tracking-wider">
+    <h2 className="text-5xl md:text-7xl font-black text-center mb-20 text-yellow-400 tracking-wider">
       OUR DOMAINS
     </h2>
 
@@ -222,81 +299,30 @@ export default function RecruitmentPage() {
         {
           title: "CREATIVES",
           desc: "Designing posters, crafting stories, and bringing the Straw Hat spirit to life!",
-          position: "left",
+          position: "left" as const,
         },
         {
           title: "TECHNICAL",
           desc: "Building websites, coding adventures, and keeping our ship’s systems running.",
-          position: "center",
+          position: "center" as const,
         },
         {
           title: "NON-TECH",
           desc: "Managing events, coordinating crews, and ensuring smooth sailing.",
-          position: "right",
+          position: "right" as const,
         },
-      ].map((domain, index) => {
-        const [flipped, setFlipped] = useState(false);
-
-        return (
-          <div
-            key={index}
-            className={`relative cursor-pointer perspective`}
-            onClick={() => setFlipped(!flipped)}
-          >
-            <div
-              className={`relative w-72 h-80 md:w-80 md:h-96 transition-transform duration-700 transform-style-preserve-3d ${
-                domain.position === "center"
-                  ? "md:w-96 md:h-[28rem]"
-                  : ""
-              } ${flipped ? "rotate-y-180" : ""}`}
-            >
-              {/* Front Side */}
-              <div
-                className="absolute inset-0 rounded-lg shadow-2xl bg-cover bg-yellow-100/80 border border-yellow-300 backface-hidden"
-                style={{
-                  backgroundImage: `url('/vintage-paper-texture.png')`,
-                  backgroundSize: "cover",
-                }}
-              >
-                <div className="absolute inset-0 bg-yellow-100/80 rounded-lg" />
-                <div className="relative z-10 h-full flex items-center justify-center">
-                  <h3 className="text-3xl md:text-4xl font-black text-center text-black tracking-wide">
-                    {domain.title}
-                  </h3>
-                </div>
-              </div>
-
-              {/* Back Side */}
-              <div
-                className="absolute inset-0 rounded-lg shadow-2xl bg-yellow-200 border border-yellow-400 p-6 text-black flex items-center justify-center text-center transform rotate-y-180 backface-hidden"
-                style={{
-                  backgroundImage: `url('/vintage-paper-texture.png')`,
-                  backgroundSize: "cover",
-                }}
-              >
-                <p className="text-lg font-semibold">{domain.desc}</p>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+      ].map((domain, index) => (
+        <DomainCard
+          key={index}
+          title={domain.title}
+          desc={domain.desc}
+          position={domain.position}
+        />
+      ))}
     </div>
   </div>
 
-  <style jsx>{`
-    .perspective {
-      perspective: 1000px;
-    }
-    .transform-style-preserve-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
-    }
-  `}</style>
+  
 </section>
 
 
@@ -394,21 +420,26 @@ export default function RecruitmentPage() {
               { icon: MessageCircle, href: "#", label: "WhatsApp" },
               { icon: Mail, href: "#", label: "Email" },
               { icon: Phone, href: "#", label: "Phone" },
-            ].map((social, index) => (
-              <a key={index} href={social.href} className="group relative" aria-label={social.label}>
-                <div className="text-white p-6 rounded-full hover:text-yellow-400 transition-all duration-300 transform group-hover:scale-125">
-                  <social.icon size={48} strokeWidth={1.5} />
-                </div>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
-                  {social.label}
-                </span>
-              </a>
-            ))}
+            ].map((social, index) => {
+              const Icon = social.icon
+              return (
+                <a key={index} href={social.href} className="group relative" aria-label={social.label}>
+                  <div className="text-white p-6 rounded-full hover:text-yellow-400 transition-all duration-300 transform group-hover:scale-125">
+                    <Icon size={48} strokeWidth={1.5} />
+                  </div>
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
+                    {social.label}
+                  </span>
+                </a>
+              )
+            })}
           </div>
 
           <footer className="text-white text-xl font-bold">@recruitment'25</footer>
         </div>
       </section>
+       
+        <ApplicationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} /> 
     </div>
   )
 }
