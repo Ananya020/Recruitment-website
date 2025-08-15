@@ -39,7 +39,6 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
 
-<<<<<<< HEAD
   try {
     const res = await fetch("http://localhost:5000/api/applicants", {
       method: "POST",
@@ -74,46 +73,6 @@ const handleSubmit = async (e: React.FormEvent) => {
     alert("Failed to submit application. Please try again.");
   } finally {
     setIsSubmitting(false);
-=======
-    try {
-      const response = await fetch('http://localhost:5000/api/applicants', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to submit application')
-      }
-
-      const result = await response.json()
-      console.log("Form submitted successfully:", result)
-      alert("Application submitted successfully! Welcome aboard, future crew member! 🏴‍☠️")
-
-      // Reset form
-      setFormData({
-        name: "",
-        srmEmail: "",
-        personalEmail: "",
-        phoneNumber: "",
-        yearOfStudy: "",
-        course: "",
-        specialization: "",
-        regNo: "",
-        domain: "",
-        motivation: "",
-      })
-      
-      onClose()
-    } catch (error) {
-      console.error('Error submitting application:', error)
-      alert('Failed to submit application. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
->>>>>>> 3b4b3bb546e596e4e03034227c12de5ba22e9059
   }
 };
 
