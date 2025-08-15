@@ -35,10 +35,46 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
+<<<<<<< HEAD
+  try {
+    const res = await fetch("http://localhost:5000/api/applicants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
+
+    alert("Application submitted successfully! 🏴‍☠️");
+    onClose();
+
+    // Reset form
+    setFormData({
+      name: "",
+      srmEmail: "",
+      personalEmail: "",
+      phoneNumber: "",
+      yearOfStudy: "",
+      course: "",
+      specialization: "",
+      regNo: "",
+      domain: "",
+      motivation: "",
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Failed to submit application. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+=======
     try {
       const response = await fetch('http://localhost:5000/api/applicants', {
         method: 'POST',
@@ -77,7 +113,10 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     } finally {
       setIsSubmitting(false)
     }
+>>>>>>> 3b4b3bb546e596e4e03034227c12de5ba22e9059
   }
+};
+
 
   if (!isOpen) return null
 
