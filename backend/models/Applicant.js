@@ -5,11 +5,23 @@ const applicantSchema = new mongoose.Schema({
   srmEmail: { type: String, required: true, unique: true },
   personalEmail: { type: String, required: true },
   phoneNumber: { type: String, required: true },
-  yearOfStudy: { type: String, required: true },
-  course: { type: String, required: true },
+  yearOfStudy: { 
+    type: String, 
+    required: true,
+    enum: ["1st", "2nd", "3rd", "4th"]
+  },
+  course: { 
+    type: String, 
+    required: true,
+    enum: ["btech", "bca", "mtech", "mca", "other"]
+  },
   specialization: { type: String, required: true },
   regNo: { type: String, required: true, unique: true },
-  domain: { type: String, required: true },
+  domain: { 
+    type: String, 
+    required: true,
+    enum: ["technical", "creatives", "non-tech"]
+  },
   motivation: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
