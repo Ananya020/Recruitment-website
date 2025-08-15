@@ -35,18 +35,25 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  try {
+    const res = await fetch("http://localhost:5000/api/applicants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    console.log("Form submitted:", formData)
-    alert("Application submitted successfully! Welcome aboard, future crew member! 🏴‍☠️")
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
 
-    setIsSubmitting(false)
-    onClose()
+    alert("Application submitted successfully! 🏴‍☠️");
+    onClose();
 
     // Reset form
     setFormData({
@@ -60,8 +67,15 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
       regNo: "",
       domain: "",
       motivation: "",
-    })
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Failed to submit application. Please try again.");
+  } finally {
+    setIsSubmitting(false);
   }
+};
+
 
   if (!isOpen) return null
 
