@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const applicantSchema = new mongoose.Schema({
   name: { type: String, required: true },
   srmEmail: { type: String, required: true, unique: true },
-  personalEmail: { type: String, required: true },
+  personalEmail: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true },
   yearOfStudy: { 
     type: String, 
