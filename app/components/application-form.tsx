@@ -40,7 +40,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   setIsSubmitting(true);
 
   try {
-    const res = await fetch("http://localhost:5000/api/applicants", {
+    const res = await fetch("https://recruitment-website-mrhg.onrender.com/api/applicants", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
