@@ -1,19 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import mongoose from "mongoose";
 import connectDB from "./config/db.js";
 import applicantRoutes from "./routes/applicantRoutes.js";
 
 dotenv.config();
 
 const app = express();
-app.use(cors);
+app.use(cors({
+  origin: 'https://recruitment-website-tau.vercel.app',
+}));
 app.use(express.json());
 
 // Try to connect to MongoDB but don't block server startup
 connectDB().catch(err => {
   console.log("⚠️  MongoDB connection failed, but server will continue running for testing");
   console.log("Error:", err.message);
+  console.log("MONGO_URI:", process.env.MONGO_URI ? "Set" : "Not set");
 });
 
 app.use("/api/applicants", applicantRoutes);
@@ -21,6 +25,19 @@ app.use("/api/applicants", applicantRoutes);
 // Add a test endpoint
 app.get("/api/test", (req, res) => {
   res.json({ message: "Backend is running successfully!" });
+});
+
+// Add a comprehensive health check
+app.get("/health", (req, res) => {
+  const health = {
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    mongoUri: process.env.MONGO_URI ? "set" : "not set"
+  };
+  res.json(health);
 });
 
 // Add a simple health check
