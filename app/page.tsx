@@ -544,11 +544,9 @@ export default function RecruitmentPage() {
 
     <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-16">
       {[
-        { icon: Instagram, href: "#", label: "Instagram" },
-        { icon: Twitter, href: "#", label: "Twitter" },
-        { icon: MessageCircle, href: "#", label: "WhatsApp" },
-        { icon: Mail, href: "#", label: "Email" },
-        { icon: Phone, href: "#", label: "Phone" },
+        { icon: Instagram, href: "https://www.instagram.com/codenex_srmist/", label: "Instagram" },
+        { icon: MessageCircle, href: "https://www.linkedin.com/company/code-nex-club-srmist/", label: "LinkedIn" },
+        
       ].map((social, index) => {
         const Icon = social.icon
         return (
