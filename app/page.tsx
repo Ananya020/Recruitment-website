@@ -64,9 +64,8 @@ function DomainCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`relative transition-all duration-700 transform-gpu ${
-          position === "center" ? "w-80 h-96 md:w-96 md:h-[28rem]" : "w-72 h-80 md:w-80 md:h-96"
-        } ${isHovered ? "scale-105 rotate-2" : ""}`}
+        className={`relative transition-all duration-700 transform-gpu ${position === "center" ? "w-80 h-96 md:w-96 md:h-[28rem]" : "w-72 h-80 md:w-80 md:h-96"
+          } ${isHovered ? "scale-105 rotate-2" : ""}`}
         style={{
           transformStyle: "preserve-3d",
           transform: flipped ? "rotateY(180deg)" : undefined,
@@ -140,9 +139,8 @@ function TimelineMilestone({
 }) {
   return (
     <div
-      className={`relative group transition-all duration-700 ${
-        milestone.position === "bottom" ? "lg:mt-24" : ""
-      } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+      className={`relative group transition-all duration-700 ${milestone.position === "bottom" ? "lg:mt-24" : ""
+        } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
       style={{ transitionDelay: `${index * 200}ms` }}
     >
       {/* Connecting line for mobile */}
@@ -258,7 +256,7 @@ export default function RecruitmentPage() {
 
   // Preload the form component
   useEffect(() => {
-    import("./components/application-form").catch(() => {})
+    import("./components/application-form").catch(() => { })
   }, [])
 
   const scrollToSection = (sectionId: string) => {
@@ -490,8 +488,8 @@ export default function RecruitmentPage() {
           <div className="relative max-w-7xl mx-auto">
             {/* Enhanced Timeline Path */}
             <div className="relative">
-             
-                
+
+
 
               {/* Timeline Items */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-4 relative z-10">
@@ -513,50 +511,71 @@ export default function RecruitmentPage() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: `url('/contact-background.png')`,
-          }}
-        />
+      {/* Transition strip between Timeline & Contact */}
+<section
+  className="relative h-32 bg-gradient-to-b from-[url('/timeline-background.png')] to-[url('/contact-background.png')] bg-cover bg-center bg-fixed"
+/>
 
-        {/* Large background text */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h2 className="text-[8rem] md:text-[12rem] lg:text-[20rem] font-black text-white/20 select-none tracking-wider">
-            CODENEX
-          </h2>
-        </div>
+{/* Contact Section */}
+<section
+  id="contact"
+  className="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  {/* Background */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
+    style={{
+      backgroundImage: `url('/contact-background.png')`,
+    }}
+  />
 
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-6xl font-black mb-16 text-yellow-400 tracking-wider">CONNECT WITH US</h2>
+  {/* Large background text */}
+  <div className="absolute inset-0 flex items-center justify-center">
+    <h2 className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[16rem] font-black text-white/20 select-none tracking-wider leading-none text-center">
+      CODENEX
+    </h2>
+  </div>
 
-          <div className="flex justify-center space-x-12 md:space-x-16 mb-20">
-            {[
-              { icon: Instagram, href: "#", label: "Instagram" },
-              { icon: Twitter, href: "#", label: "Twitter" },
-              { icon: MessageCircle, href: "#", label: "WhatsApp" },
-              { icon: Mail, href: "#", label: "Email" },
-              { icon: Phone, href: "#", label: "Phone" },
-            ].map((social, index) => {
-              const Icon = social.icon
-              return (
-                <a key={index} href={social.href} className="group relative" aria-label={social.label}>
-                  <div className="text-white p-6 rounded-full hover:text-yellow-400 transition-all duration-300 transform group-hover:scale-125">
-                    <Icon size={48} strokeWidth={1.5} />
-                  </div>
-                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
-                    {social.label}
-                  </span>
-                </a>
-              )
-            })}
-          </div>
+  {/* Foreground content */}
+  <div className="relative z-10 container mx-auto px-4 text-center">
+    <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-12 md:mb-16 text-yellow-400 tracking-wider">
+      CONNECT WITH US
+    </h2>
 
-          <footer className="text-white text-xl font-bold">@recruitment'25</footer>
-        </div>
-      </section>
+    <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-16">
+      {[
+        { icon: Instagram, href: "#", label: "Instagram" },
+        { icon: Twitter, href: "#", label: "Twitter" },
+        { icon: MessageCircle, href: "#", label: "WhatsApp" },
+        { icon: Mail, href: "#", label: "Email" },
+        { icon: Phone, href: "#", label: "Phone" },
+      ].map((social, index) => {
+        const Icon = social.icon
+        return (
+          <a
+            key={index}
+            href={social.href}
+            className="group relative flex flex-col items-center"
+            aria-label={social.label}
+          >
+            <div className="text-white p-4 sm:p-6 rounded-full hover:text-yellow-400 transition-all duration-300 transform group-hover:scale-125">
+              <Icon size={40} strokeWidth={1.5} />
+            </div>
+            <span className="mt-2 text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
+              {social.label}
+            </span>
+          </a>
+        )
+      })}
+    </div>
+
+    <footer className="text-white text-lg sm:text-xl font-bold">
+      @recruitment'25
+    </footer>
+  </div>
+</section>
+
+
 
       <ApplicationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </div>

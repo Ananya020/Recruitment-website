@@ -85,10 +85,10 @@ const handleSubmit = async (e: React.FormEvent) => {
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-blue-900 via-blue-800 to-blue-900 rounded-2xl border-4 border-yellow-400 shadow-2xl">
+      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-black via-black to-black rounded-2xl border-4 border-yellow-400 shadow-2xl">
         {/* Background Pattern */}
         <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center rounded-2xl"
+          className="absolute inset-0 opacity-30 bg-cover bg-center rounded-2xl"
           style={{
             backgroundImage: `url('/hero-background.png')`,
           }}
@@ -216,7 +216,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
                     <SelectValue placeholder="Select your year" />
                   </SelectTrigger>
-                  <SelectContent className="bg-blue-900 border-yellow-400">
+                  <SelectContent className="bg-black border-yellow-400">
                     <SelectItem value="1st" className="text-white hover:bg-yellow-400/20">
                       1st Year
                     </SelectItem>
@@ -241,7 +241,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
                     <SelectValue placeholder="Select your course" />
                   </SelectTrigger>
-                  <SelectContent className="bg-blue-900 border-yellow-400">
+                  <SelectContent className="bg-black border-yellow-400">
                     <SelectItem value="btech" className="text-white hover:bg-yellow-400/20">
                       B.Tech
                     </SelectItem>
@@ -293,7 +293,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
                   <SelectValue placeholder="Select your domain" />
                 </SelectTrigger>
-                <SelectContent className="bg-blue-900 border-yellow-400">
+                <SelectContent className="bg-black border-yellow-400">
                   <SelectItem value="technical" className="text-white hover:bg-yellow-400/20">
                     <div className="flex items-center space-x-2">
                       <span>⚙️</span>
