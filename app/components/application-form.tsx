@@ -40,6 +40,8 @@ const handleSubmit = async (e: React.FormEvent) => {
   setIsSubmitting(true);
 
   try {
+    console.log("Submitting form data:", formData);
+    
     const res = await fetch("https://recruitment-website-mrhg.onrender.com/api/applicants", {
       method: "POST",
       headers: {
@@ -48,10 +50,18 @@ const handleSubmit = async (e: React.FormEvent) => {
       body: JSON.stringify(formData),
     });
 
+    console.log("Response status:", res.status);
+    console.log("Response headers:", res.headers);
+
     if (!res.ok) {
-      throw new Error(`Error: ${res.status}`);
+      const errorText = await res.text();
+      console.error("Error response:", errorText);
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
     }
 
+    const result = await res.json();
+    console.log("Success response:", result);
+    
     alert("Application submitted successfully! 🏴‍☠️");
     onClose();
 
@@ -69,8 +79,8 @@ const handleSubmit = async (e: React.FormEvent) => {
       motivation: "",
     });
   } catch (error) {
-    console.error(error);
-    alert("Failed to submit application. Please try again.");
+    console.error("Form submission error:", error);
+    alert(`Failed to submit application: ${error.message}`);
   } finally {
     setIsSubmitting(false);
   }
