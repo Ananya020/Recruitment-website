@@ -7,10 +7,7 @@ import applicantRoutes from "./routes/applicantRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}));
+app.use(cors);
 app.use(express.json());
 
 // Try to connect to MongoDB but don't block server startup
