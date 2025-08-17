@@ -26,17 +26,34 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     specialization: "",
     regNo: "",
     domain: "",
+    subDomain: "",
     motivation: "",
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => {
+      const newData = { ...prev, [field]: value };
+      
+      // Clear subDomain if domain changes to non-technical
+      if (field === "domain" && value !== "technical") {
+        newData.subDomain = "";
+      }
+      
+      return newData;
+    });
   }
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+  
+  // Frontend validation
+  if (formData.domain === "technical" && !formData.subDomain) {
+    alert("Please select a technical sub-domain");
+    return;
+  }
+  
   setIsSubmitting(true);
 
   try {
@@ -76,6 +93,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       specialization: "",
       regNo: "",
       domain: "",
+      subDomain: "",
       motivation: "",
     });
   } catch (error) {
@@ -289,57 +307,93 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
 
           {/* Domain Selection Section */}
-          <div className="bg-black/30 rounded-xl p-6 border border-yellow-400/30">
-            <div className="flex items-center space-x-2 mb-4">
-              <Anchor className="text-yellow-400" size={20} />
-              <h3 className="text-xl font-bold text-yellow-400">CHOOSE YOUR ADVENTURE</h3>
-            </div>
+<div className="bg-black/30 rounded-xl p-6 border border-yellow-400/30">
+  <div className="flex items-center space-x-2 mb-4">
+    <Anchor className="text-yellow-400" size={20} />
+    <h3 className="text-xl font-bold text-yellow-400">CHOOSE YOUR ADVENTURE</h3>
+  </div>
 
-            <div>
-              <Label htmlFor="domain" className="text-white font-semibold">
-                Preferred Domain *
-              </Label>
-              <Select value={formData.domain} onValueChange={(value) => handleInputChange("domain", value)}>
-                <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
-                  <SelectValue placeholder="Select your domain" />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-yellow-400">
-                  <SelectItem value="technical" className="text-white hover:bg-yellow-400/20">
-                    <div className="flex items-center space-x-2">
-                      <span>⚙️</span>
-                      <span>TECHNICAL - Development, Programming, AI</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="creatives" className="text-white hover:bg-yellow-400/20">
-                    <div className="flex items-center space-x-2">
-                      <span>🎨</span>
-                      <span>CREATIVES - Design, UI/UX, Graphics</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="non-tech" className="text-white hover:bg-yellow-400/20">
-                    <div className="flex items-center space-x-2">
-                      <span>📋</span>
-                      <span>NON-TECH - Management, Marketing, Content</span>
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="mt-4">
-              <Label htmlFor="motivation" className="text-white font-semibold">
-                Why do you want to join CodeNex? *
-              </Label>
-              <Textarea
-                id="motivation"
-                required
-                value={formData.motivation}
-                onChange={(e) => handleInputChange("motivation", e.target.value)}
-                className="mt-1 bg-white/10 border-yellow-400/50 text-white placeholder:text-gray-300 focus:border-yellow-400 min-h-[100px]"
-                placeholder="Tell us about your passion for technology and what you hope to achieve with CodeNex..."
-              />
-            </div>
+  <div>
+    <Label htmlFor="domain" className="text-white font-semibold">
+      Preferred Domain *
+    </Label>
+    <Select
+      value={formData.domain}
+      onValueChange={(value) => handleInputChange("domain", value)}
+    >
+      <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
+        <SelectValue placeholder="Select your domain" />
+      </SelectTrigger>
+      <SelectContent className="bg-black border-yellow-400">
+        <SelectItem value="technical" className="text-white hover:bg-yellow-400/20">
+          <div className="flex items-center space-x-2">
+            <span>⚙️</span>
+            <span>TECHNICAL - Development, Programming, AI</span>
           </div>
+        </SelectItem>
+        <SelectItem value="creatives" className="text-white hover:bg-yellow-400/20">
+          <div className="flex items-center space-x-2">
+            <span>🎨</span>
+            <span>CREATIVES - Design, UI/UX, Graphics</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="non-tech" className="text-white hover:bg-yellow-400/20">
+          <div className="flex items-center space-x-2">
+            <span>📋</span>
+            <span>NON-TECH - Management, Marketing, Content</span>
+          </div>
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+
+  {/* Show sub-domain only if "technical" is selected */}
+  {formData.domain === "technical" && (
+    <div className="mt-4">
+      <Label htmlFor="subDomain" className="text-white font-semibold">
+        Technical Sub-Domain *
+      </Label>
+      <Select
+        value={formData.subDomain || ""}
+        onValueChange={(value) => handleInputChange("subDomain", value)}
+        required
+      >
+        <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
+          <SelectValue placeholder="Select your sub-domain" />
+        </SelectTrigger>
+        <SelectContent className="bg-black border-yellow-400">
+          <SelectItem value="ai-ml" className="text-white hover:bg-yellow-400/20">
+            AI / ML
+          </SelectItem>
+          <SelectItem value="cybersecurity" className="text-white hover:bg-yellow-400/20">
+            Cybersecurity
+          </SelectItem>
+          <SelectItem value="blockchain" className="text-white hover:bg-yellow-400/20">
+            Blockchain
+          </SelectItem>
+          <SelectItem value="webdev" className="text-white hover:bg-yellow-400/20">
+            Web Development
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  )}
+
+  <div className="mt-4">
+    <Label htmlFor="motivation" className="text-white font-semibold">
+      Why do you want to join CodeNex? *
+    </Label>
+    <Textarea
+      id="motivation"
+      required
+      value={formData.motivation}
+      onChange={(e) => handleInputChange("motivation", e.target.value)}
+      className="mt-1 bg-white/10 border-yellow-400/50 text-white placeholder:text-gray-300 focus:border-yellow-400 min-h-[100px]"
+      placeholder="Tell us about your passion for technology and what you hope to achieve with CodeNex..."
+    />
+  </div>
+</div>
+
 
           {/* Submit Button */}
           <div className="flex justify-center pt-6">

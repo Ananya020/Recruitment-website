@@ -22,6 +22,11 @@ const applicantSchema = new mongoose.Schema({
     required: true,
     enum: ["technical", "creatives", "non-tech"]
   },
+  subDomain: { 
+    type: String, 
+    required: false,
+    enum: ["ai-ml", "cybersecurity", "blockchain", "webdev"]
+  },
   motivation: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
