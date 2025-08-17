@@ -9,6 +9,18 @@ export const createApplicant = async (req, res) => {
       });
     }
     
+    // Validate that subDomain is provided when domain is technical
+    if (req.body.domain === "technical" && !req.body.subDomain) {
+      return res.status(400).json({ 
+        error: "Sub-domain is required when technical domain is selected" 
+      });
+    }
+    
+    // Clear subDomain if domain is not technical
+    if (req.body.domain !== "technical") {
+      req.body.subDomain = undefined;
+    }
+    
     const newApplicant = new Applicant(req.body);
     await newApplicant.save();
     res.status(201).json({ message: "Application submitted successfully" });
