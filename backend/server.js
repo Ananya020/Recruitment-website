@@ -9,8 +9,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: ['https://recruitment-website-tau.vercel.app', 'https://recruitment-website-mrhg.onrender.com', 'http://localhost:3000'],
-  credentials: true
+  origin: 'https://recruitment-website-tau.vercel.app',
 }));
 app.use(express.json());
 
