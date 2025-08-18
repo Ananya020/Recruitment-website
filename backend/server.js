@@ -11,7 +11,7 @@ const app = express();
 
 // Allow production Vercel domain and local dev; allow Vercel preview deployments
 const allowedOrigins = [
-  'https://recruitment-website-codenex.vercel.app/',
+  'https://recruitments2k25.codenex.co.in/',
   'http://localhost:3000',
 ];
 
