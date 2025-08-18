@@ -58,17 +58,20 @@ function DomainCard({
   return (
     <div
       className={`relative cursor-pointer group`}
-      style={{ perspective: "1000px" }}
+      style={{ perspective: "1000px", WebkitPerspective: "1000px" }}
       onClick={() => setFlipped(!flipped)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`relative transition-all duration-700 transform-gpu ${position === "center" ? "w-80 h-96 md:w-96 md:h-[28rem]" : "w-72 h-80 md:w-80 md:h-96"
+        className={`relative transition-transform duration-700 ease-out transform-gpu ${position === "center" ? "w-80 h-96 md:w-96 md:h-[28rem]" : "w-72 h-80 md:w-80 md:h-96"
           } ${isHovered ? "scale-105 rotate-2" : ""}`}
         style={{
           transformStyle: "preserve-3d",
-          transform: flipped ? "rotateY(180deg)" : undefined,
+          WebkitTransformStyle: "preserve-3d",
+          willChange: "transform",
+          transform: flipped ? "rotateY(180deg) translateZ(0)" : "rotateY(0deg) translateZ(0)",
+          WebkitTransform: flipped ? "rotateY(180deg) translateZ(0)" : "rotateY(0deg) translateZ(0)",
         }}
       >
         {/* Glow effect */}
@@ -83,6 +86,9 @@ function DomainCard({
             backgroundImage: `url('/vintage-paper-texture.png')`,
             backgroundSize: "cover",
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(0deg) translateZ(0)",
+            WebkitTransform: "rotateY(0deg) translateZ(0)",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-100/90 to-orange-100/90 rounded-lg" />
@@ -111,8 +117,10 @@ function DomainCard({
           style={{
             backgroundImage: `url('/vintage-paper-texture.png')`,
             backgroundSize: "cover",
-            transform: "rotateY(180deg)",
+            transform: "rotateY(180deg) translateZ(0)",
+            WebkitTransform: "rotateY(180deg) translateZ(0)",
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-orange-100/90 to-yellow-100/90 rounded-lg" />

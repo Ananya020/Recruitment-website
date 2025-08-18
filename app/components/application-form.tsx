@@ -236,12 +236,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <SelectItem value="2nd" className="text-white hover:bg-yellow-400/20">
                       2nd Year
                     </SelectItem>
-                    <SelectItem value="3rd" className="text-white hover:bg-yellow-400/20">
-                      3rd Year
-                    </SelectItem>
-                    <SelectItem value="4th" className="text-white hover:bg-yellow-400/20">
-                      4th Year
-                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -306,24 +300,24 @@ const handleSubmit = async (e: React.FormEvent) => {
       value={formData.domain}
       onValueChange={(value) => handleInputChange("domain", value)}
     >
-      <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
-        <SelectValue placeholder="Select your domain" />
+      <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400 w-full truncate">
+        <SelectValue placeholder="Select your domain" className="truncate" />
       </SelectTrigger>
-      <SelectContent className="bg-black border-yellow-400">
-        <SelectItem value="technical" className="text-white hover:bg-yellow-400/20">
-          <div className="flex items-center space-x-2">
+      <SelectContent className="bg-black border-yellow-400 w-[var(--radix-select-trigger-width)] max-w-[calc(100vw-2rem)] sm:max-w-md">
+        <SelectItem value="technical" className="text-white hover:bg-yellow-400/20 whitespace-normal">
+          <div className="flex items-center space-x-2 flex-wrap">
             <span>⚙️</span>
             <span>TECHNICAL - Development, Programming, AI</span>
           </div>
         </SelectItem>
-        <SelectItem value="creatives" className="text-white hover:bg-yellow-400/20">
-          <div className="flex items-center space-x-2">
+        <SelectItem value="creatives" className="text-white hover:bg-yellow-400/20 whitespace-normal">
+          <div className="flex items-center space-x-2 flex-wrap">
             <span>🎨</span>
             <span>CREATIVES - Design, UI/UX, Graphics</span>
           </div>
         </SelectItem>
-        <SelectItem value="non-tech" className="text-white hover:bg-yellow-400/20">
-          <div className="flex items-center space-x-2">
+        <SelectItem value="non-tech" className="text-white hover:bg-yellow-400/20 whitespace-normal">
+          <div className="flex items-center space-x-2 flex-wrap">
             <span>📋</span>
             <span>NON-TECH - Management, Marketing, Content</span>
           </div>
@@ -343,10 +337,10 @@ const handleSubmit = async (e: React.FormEvent) => {
         onValueChange={(value) => handleInputChange("subDomain", value)}
         required
       >
-        <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400">
-          <SelectValue placeholder="Select your sub-domain" />
+        <SelectTrigger className="mt-1 bg-white/10 border-yellow-400/50 text-white focus:border-yellow-400 w-full truncate">
+          <SelectValue placeholder="Select your sub-domain" className="truncate" />
         </SelectTrigger>
-        <SelectContent className="bg-black border-yellow-400">
+        <SelectContent className="bg-black border-yellow-400 w-[var(--radix-select-trigger-width)] max-w-[calc(100vw-2rem)] sm:max-w-md">
           <SelectItem value="ai-ml" className="text-white hover:bg-yellow-400/20">
             AI / ML
           </SelectItem>
