@@ -8,8 +8,21 @@ import applicantRoutes from "./routes/applicantRoutes.js";
 dotenv.config();
 
 const app = express();
+
+// Allow production Vercel domain and local dev; allow Vercel preview deployments
+const allowedOrigins = [
+  'https://recruitment-website-plum.vercel.app',
+  'http://localhost:3000',
+];
+
 app.use(cors({
-  origin: 'https://recruitment-website-tau.vercel.app',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const isAllowed =
+      allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin);
+    if (isAllowed) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
 }));
 app.use(express.json());
 

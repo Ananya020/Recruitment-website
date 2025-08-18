@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { createApplicant } from "@/lib/utils"
 
 interface ApplicationFormProps {
   isOpen: boolean
@@ -59,25 +60,8 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     console.log("Submitting form data:", formData);
     
-    const res = await fetch("https://recruitment-website-mrhg.onrender.com/api/applicants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    console.log("Response status:", res.status);
-    console.log("Response headers:", res.headers);
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("Error response:", errorText);
-      throw new Error(`HTTP ${res.status}: ${errorText}`);
-    }
-
-    const result = await res.json();
-    console.log("Success response:", result);
+    const result = await createApplicant(formData)
+    console.log("Success response:", result)
     
     alert("Application submitted successfully! 🏴‍☠️");
     onClose();
@@ -97,8 +81,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       motivation: "",
     });
   } catch (error) {
-    console.error("Form submission error:", error);
-    alert(`Failed to submit application: ${error.message}`);
+    console.error("Form submission error:", error)
+    const message = error instanceof Error ? error.message : "Unknown error"
+    alert(`Failed to submit application: ${message}`)
   } finally {
     setIsSubmitting(false);
   }
