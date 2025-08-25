@@ -32,6 +32,9 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => {
@@ -48,24 +51,23 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  
+  setErrorMessage(null);
+  setSuccessMessage(null);
+  setShowPopup(false);
+
   // Frontend validation
   if (formData.domain === "technical" && !formData.subDomain) {
-    alert("Please select a technical sub-domain");
+    setErrorMessage("Please select a technical sub-domain.");
+    setShowPopup(true);
     return;
   }
-  
+
   setIsSubmitting(true);
-
   try {
-    console.log("Submitting form data:", formData);
-    
-    const result = await createApplicant(formData)
-    console.log("Success response:", result)
-    
-    alert("Application submitted successfully! 🏴‍☠️");
-    onClose();
-
+    const result = await createApplicant(formData);
+    setSuccessMessage("Application submitted successfully! 🏴‍☠️");
+    setErrorMessage(null);
+    setShowPopup(true);
     // Reset form
     setFormData({
       name: "",
@@ -80,10 +82,17 @@ const handleSubmit = async (e: React.FormEvent) => {
       subDomain: "",
       motivation: "",
     });
-  } catch (error) {
-    console.error("Form submission error:", error)
-    const message = error instanceof Error ? error.message : "Unknown error"
-    alert(`Failed to submit application: ${message}`)
+    // Optionally close modal after a short delay
+    setTimeout(() => {
+      setSuccessMessage(null);
+      setShowPopup(false);
+      onClose();
+    }, 2000);
+  } catch (error: any) {
+    let message = error instanceof Error ? error.message : "Unknown error";
+    setErrorMessage(message);
+    setSuccessMessage(null);
+    setShowPopup(true);
   } finally {
     setIsSubmitting(false);
   }
@@ -128,6 +137,22 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="relative z-10 p-6 space-y-6">
+          {/* Error/Success Popup */}
+          {showPopup && (errorMessage || successMessage) && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowPopup(false)} />
+              <div className={`relative z-10 px-8 py-6 rounded-2xl shadow-2xl border-2 font-bold text-lg max-w-md mx-auto text-center ${errorMessage ? "bg-red-700 text-white border-red-400" : "bg-green-700 text-white border-green-400"}`}>
+                {errorMessage || successMessage}
+                <button
+                  className="mt-4 px-4 py-2 rounded bg-white text-black font-bold hover:bg-yellow-400 transition"
+                  type="button"
+                  onClick={() => setShowPopup(false)}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
           {/* Personal Information Section */}
           <div className="bg-black/30 rounded-xl p-6 border border-yellow-400/30">
             <div className="flex items-center space-x-2 mb-4">
