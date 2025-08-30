@@ -2,37 +2,66 @@ import Applicant from "../models/Applicant.js";
 
 export const createApplicant = async (req, res) => {
   try {
-    // Check if we can connect to the database
     if (!Applicant.db.db) {
       return res.status(503).json({ 
-        error: "Database not connected. Please check MongoDB connection." 
+        error: "DATABASE_ERROR",
+        message: "Database not connected. Please check MongoDB connection."
       });
     }
-    
-    // Validate that subDomain is provided when domain is technical
+
+    const requiredFields = [
+      "name", "srmEmail", "personalEmail", "phoneNumber", "yearOfStudy", "course", "specialization", "regNo", "domain", "motivation"
+    ];
+    const missingFields = requiredFields.filter(field => !req.body[field]);
     if (req.body.domain === "technical" && !req.body.subDomain) {
-      return res.status(400).json({ 
-        error: "Sub-domain is required when technical domain is selected" 
+      missingFields.push("subDomain");
+    }
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: "MISSING_FIELDS",
+        message: `Please fill all required fields: ${missingFields.join(", ")}`,
+        fields: missingFields
       });
     }
-    
-    // Clear subDomain if domain is not technical
+
+    const existing = await Applicant.findOne({
+      $or: [
+        { srmEmail: req.body.srmEmail },
+        { personalEmail: req.body.personalEmail },
+        { regNo: req.body.regNo }
+      ]
+    });
+    if (existing) {
+      return res.status(409).json({
+        error: "DUPLICATE_EMAIL",
+        message: "You have already registered with this email or registration number."
+      });
+    }
+
     if (req.body.domain !== "technical") {
       req.body.subDomain = undefined;
     }
-    
+
     const newApplicant = new Applicant(req.body);
     await newApplicant.save();
     res.status(201).json({ message: "Application submitted successfully" });
   } catch (err) {
     console.error("Error creating applicant:", err);
-    res.status(500).json({ error: err.message });
+    if (err.code === 11000) {
+      return res.status(409).json({
+        error: "DUPLICATE_EMAIL",
+        message: "You have already registered with this email or registration number."
+      });
+    }
+    res.status(500).json({
+      error: "SERVER_ERROR",
+      message: err.message || "Failed to create applicant"
+    });
   }
 };
 
 export const getApplicants = async (req, res) => {
   try {
-    // Check if we can connect to the database
     if (!Applicant.db.db) {
       return res.status(503).json({ 
         error: "Database not connected. Please check MongoDB connection." 
@@ -43,6 +72,6 @@ export const getApplicants = async (req, res) => {
     res.json(applicants);
   } catch (err) {
     console.error("Error getting applicants:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "SERVER_ERROR", message: err.message || "Failed to get applicants" });
   }
 };
